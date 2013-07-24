@@ -1,9 +1,35 @@
-source /usr/local/share/git-core/contrib/completion/git-completion.bash
-source /usr/local/share/git-core/contrib/completion/git-prompt.sh
+# set operating system platform
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+   platform='linux'
+elif [[ "$unamestr" == 'FreeBSD' ]]; then
+   platform='freebsd'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+   platform='darwin'
+fi
 
-[[ $PS1 && -f /usr/local/share/bash-completion/bash_completion.sh ]] && \
-        source /usr/local/share/bash-completion/bash_completion.sh
+# set platform dependant variables
+if [[ $platform == 'linux' ]]; then
+	alias ls='ls --color=auto'
+	share_dir_git='/usr/local/share/git-core/contrib/completion'
+elif [[ $platform == 'freebsd' ]]; then
+	alias ls='ls -G'
+	share_dir_git='/usr/local/share/git-core/contrib/completion'
+elif [[ $platform == 'darwin' ]]; then
+	share_dir_git='/usr/share/git-core'
+fi
 
+# set git scripts
+share_dir_git='/usr/share/git-core'
+source ${share_dir_git}/git-completion.bash
+source ${share_dir_git}/git-prompt.sh
+
+# not sure if this is needed or not
+[[ $PS1 && -f ${share_dir_git}/bash_completion.sh ]] && \
+        source ${share_dir_git}/bash_completion.sh
+
+# returns the git status for a cool prompt
 function _git_prompt() {
     local git_status="`git status -unormal 2>&1`"
     if ! [[ "$git_status" =~ Not\ a\ git\ repo ]]; then
@@ -23,3 +49,9 @@ function _prompt_command() {
 }
 
 PROMPT_COMMAND=_prompt_command
+
+# use this to speed up tmux session creating
+alias tm="~/.tmux/tmux.sh"
+
+# use vi commands on the cli
+set -o vi
