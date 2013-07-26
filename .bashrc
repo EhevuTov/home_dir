@@ -21,7 +21,6 @@ elif [[ $platform == 'darwin' ]]; then
 fi
 
 # set git scripts
-share_dir_git='/usr/share/git-core'
 source ${share_dir_git}/git-completion.bash
 source ${share_dir_git}/git-prompt.sh
 
