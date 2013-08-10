@@ -1,5 +1,6 @@
 " Vundle config
 set nocompatible               " be iMproved
+filetype on											"removes git commit exit error
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
@@ -12,20 +13,26 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 "
 " original repos on github
-Bundle 'majutsushi/tagbar'
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'zeis/vim-kolor'
+"Bundle 'flazz/vim-colorschemes'
+"Bundle 'desert-warm-256'
+Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-pastie'
+Bundle 'mattn/gist-vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
 Bundle 'ddollar/nerdcommenter'
-Bundle 'mbbill/code_complete'
-Bundle 'millermedeiros/vim-statline'
+"Bundle 'mbbill/code_complete'
+"Bundle 'millermedeiros/vim-statline'
+Bundle 'Lokaltog/vim-powerline'
 
 " Github repos of the user 'vim-scripts'
 " => can omit the username part
 Bundle 'L9'
 Bundle 'FuzzyFinder'
+Bundle 'CSApprox'
 
 " non github repos
 "Bundle 'git://git.wincent.com/command-t.git'
@@ -36,25 +43,66 @@ filetype plugin indent on     " required!
 
 " local config
 " conditional for color terminals
+"set t_Co=256
 if &t_Co != 256 && ! has("gui_running")
 	echomsg ""
 	echomsg "err: please use GUI or a 256-color terminal (so that t_Co=256 could be set)"
+	echomsg &t_Co
 	echomsg ""
 endif
 
-if &t_Co >= 256 || has("gui_running")
-	set background=dark
-"	set background=light
-	colorscheme solarized
-	let g:solarized_termcolors=256
-endif
-
 if &t_Co > 2 || has("gui_running")
-  syntax on
+	syntax on
 	set hlsearch
 	set incsearch
 endif
 
+if &t_Co >= 256 || has("gui_running")
+"	set background=dark
+"	set background=light
+"	colorscheme solarized
+"	let g:solarized_termcolors=256
+endif
+
+if !has('gui_running')
+" Compatibility for Terminal
+	let g:solarized_termtrans=1
+	if (&t_Co >= 256 || $TERM == 'xterm-256color')
+	let g:solarized_termcolors=256
+" Do nothing, it handles itself.
+	else
+" Make Solarized use 16 colors for Terminal support
+let g:solarized_termcolors=16
+	endif
+endif
+
+" Leave this at normal at all times
+let g:solarized_contrast='normal'
+"
+" " Non-text items visibility, normal, low or high
+let g:solarized_visibility='low'
+"
+" " Show trailing white spaces
+let g:solarized_hitrail=1
+"
+" " Disable the Solarized menu, when using GUI
+let g:solarized_menu=0
+"
+" " Don't use any underline styles
+let g:solarized_underline=1
+let g:solarized_bold=1
+let g:solarized_italic=1
+let g:solarized_degrade=0
+"
+set background=dark " Use the light/dark version the color scheme
+silent! colorscheme solarized " Set the color scheme to use, no errors allowed
+
+"highlight CursorLineNr cterm=none ctermfg=0 ctermbg=none guifg=#073642
+"highlight CursorLine cterm=none guibg=#000000 ctermbg=100
+"highlight NonText cterm=none ctermfg=0 guifg=#073642
+"highlight SpecialKey cterm=none ctermfg=0 guifg=#073642 ctermbg=none guibg=#002b36
+" Italicize comments
+"highlight Comment cterm=italic
 " set filename in window title bar
 set title
 " set line numbers on left side
@@ -109,6 +157,12 @@ endif
 "
 " Tagbar
 nnoremap <silent> <leader>tt :TagbarOpen fj<CR>
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_javascript_checkers = ['jsl']
 
 " FuzzyFinder
 " disables caching :FufRenewCache
