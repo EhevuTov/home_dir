@@ -119,7 +119,7 @@ set colorcolumn=80
 set tw=80
 " show special chars for non-visible chars for readability and hinting
 set list
-set listchars=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set listchars=tab:»\ ,trail:·,eol:¬,nbsp:_
 " always show status line
 set laststatus=2
 " Show the current mode
