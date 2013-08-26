@@ -12,9 +12,6 @@ set tabstop=2
 set colorcolumn=80
 " word wrap on last column
 set tw=80
-" show special chars for non-visible chars for readability and hinting
-set list
-set listchars=tab:»\ ,trail:·,eol:¬,nbsp:_
 " always show status line
 set laststatus=2
 " Show the current mode

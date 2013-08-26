@@ -1,3 +1,7 @@
+" show special chars for non-visible chars for readability and hinting
+set list
+set listchars=tab:»\ ,trail:·,eol:¬,nbsp:_
+
 " local config
 " conditional for color terminals
 "set t_Co=256
